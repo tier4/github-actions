@@ -49,7 +49,7 @@ runs:
         author: GitHub <noreply@github.com>
         signoff: false
         base: ${{ inputs.base-branch }}
-        branch: ${{ inputs.sunc-branch }}
+        branch: ${{ inputs.sync-branch }}
         delete-branch: true
         title: sync main for develop
         body: sync main for develop
