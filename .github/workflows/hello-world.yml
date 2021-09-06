@@ -1,0 +1,11 @@
+on:
+  push:
+    branches:
+     - sandbox
+
+jobs:
+  hello-world-job:
+    runs-on: ubuntu-latest
+    name: Use hello world
+    steps:
+      - uses: tier4/github-actions/hello-world@sandbox
