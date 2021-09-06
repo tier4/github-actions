@@ -2,13 +2,13 @@ name: "Create Sync Main Pull Request"
 description: "Create a pull request to synchronize with main branch"
 
 inputs:
-  main-branch:
-    description: "main branch"
-    required: true
   base-branch:
     description: "base branch"
     required: true
-  sunc-branch:
+  main-branch:
+    description: "main branch"
+    required: true
+  sync-branch:
     description: "sync branch"
     required: true
   app-id:
