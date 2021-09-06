@@ -1,0 +1,69 @@
+name: "Create Sync Main Pull Request"
+description: "Create a pull request to synchronize with main branch"
+
+inputs:
+  main-branch:
+    description: "main branch"
+    required: true
+  base-branch:
+    description: "base branch"
+    required: true
+  sunc-branch:
+    description: "sync branch"
+    required: true
+  app-id:
+    description: "APP_ID"
+    required: true
+  app-private-key:
+    description: "APP_PRIVATE_KEY"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    # To keep the base branch in "create-pull-request", checkout with "base-branch" and reset to "main-branch"
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ inputs.base-branch }}
+        fetch-depth: 0
+
+    - name: Reset to sync target branch
+      run: git reset --hard origin/${{ inputs.main-branch }}
+
+    - name: Generate token
+      uses: tibdex/github-app-token@v1
+      id: generate-token
+      with:
+        app_id: ${{ inputs.app-id }}
+        private_key: ${{ inputs.app-private-key }}
+
+    - name: Create PR
+      uses: peter-evans/create-pull-request@v3
+      id: create-pr
+      with:
+        token: ${{ steps.generate-token.outputs.token }}
+        commit-message: sync main for develop
+        committer: GitHub <noreply@github.com>
+        author: GitHub <noreply@github.com>
+        signoff: false
+        base: ${{ inputs.base-branch }}
+        branch: ${{ inputs.sunc-branch }}
+        delete-branch: true
+        title: sync main for develop
+        body: sync main for develop
+        labels: sync-main-for-develop
+        draft: false
+
+    - name: Check outputs
+      run: |
+        echo "Pull Request Number - ${{ steps.create-pr.outputs.pull-request-number }}"
+        echo "Pull Request URL - ${{ steps.create-pr.outputs.pull-request-url }}"
+
+    - name: Enable Auto-merge
+      uses: peter-evans/enable-pull-request-automerge@v1
+      if: steps.create-pr.outputs.pull-request-operation == 'created'
+      with:
+        token: ${{ steps.generate-token.outputs.token }}
+        pull-request-number: ${{ steps.create-pr.outputs.pull-request-number }}
+        merge-method: merge
