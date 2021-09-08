@@ -1,0 +1,61 @@
+name: "Create Sync Main Pull Request"
+description: "Create a pull request to synchronize with main branch"
+
+inputs:
+  base-branch:
+    description: "base branch"
+    required: true
+  main-branch:
+    description: "main branch"
+    required: true
+  sync-branch:
+    description: "sync branch"
+    required: true
+  token:
+    description: "access token"
+    required: true
+
+outputs:
+  pull-request-operation:
+    description: "pull request operation"
+    value: ${{ steps.create-pull-request.outputs.pull-request-operation }}
+  pull-request-number:
+    description: "pull request number"
+    value: ${{ steps.create-pull-request.outputs.pull-request-number }}
+
+runs:
+  using: "composite"
+  steps:
+    # To keep the base branch in "create-pull-request", checkout with "base-branch" and reset to "main-branch"
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ inputs.base-branch }}
+        fetch-depth: 0
+
+    - name: Reset to sync target branch
+      shell: bash
+      run: git reset --hard origin/${{ inputs.main-branch }}
+
+    - name: Create PR
+      uses: peter-evans/create-pull-request@v3
+      id: create-pull-request
+      with:
+        token: ${{ inputs.token }}
+        commit-message: sync main for develop
+        committer: GitHub <noreply@github.com>
+        author: GitHub <noreply@github.com>
+        signoff: false
+        base: ${{ inputs.base-branch }}
+        branch: ${{ inputs.sync-branch }}
+        delete-branch: true
+        title: sync main for develop
+        body: sync main for develop
+        labels: sync-main-for-develop
+        draft: false
+
+    - name: Check outputs
+      shell: bash
+      run: |
+        echo "Pull Request Number - ${{ steps.create-pull-request.outputs.pull-request-number }}"
+        echo "Pull Request URL - ${{ steps.create-pull-request.outputs.pull-request-url }}"
