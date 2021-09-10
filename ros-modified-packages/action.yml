@@ -14,4 +14,4 @@ runs:
   steps:
     - shell: bash
       id: search
-      run: ${{ github.action_path }}/ros-modified-packages/modified-packages.sh ${{ inputs.base-branch }} ${{ github.workspace }}
+      run: ${{ github.action_path }}/modified-packages.sh ${{ inputs.base-branch }} ${{ github.workspace }}
