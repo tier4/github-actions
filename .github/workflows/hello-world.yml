@@ -1,7 +1,6 @@
 on:
-  push:
-    branches:
-     - sandbox
+  workflow_dispatch:
+  #push: {branches: [sandbox]}
 
 jobs:
   hello-world-job:
