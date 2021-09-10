@@ -11,4 +11,4 @@ jobs:
       - uses: tier4/github-actions/ros-modified-packages@sandbox
         id: modified-packages
       - shell: bash
-        run: echo packages: ${{ steps.modified-packages.outputs.packages }}
+        run: echo packages = ${{ steps.modified-packages.outputs.packages }}
