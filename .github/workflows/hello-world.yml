@@ -9,9 +9,13 @@ jobs:
     name: Use hello world
     steps:
       - uses: actions/checkout@v2
-      - id: modified-packages
-        uses: tier4/github-actions/ros-modified-packages@sandbox
+        with:
+            fetch-depth: 0
+
+      - uses: tier4/github-actions/ros-modified-packages@sandbox
+        id: modified-packages
         with:
           base-branch: origin/initial
+
       - shell: bash
         run: echo packages = ${{ steps.modified-packages.outputs.packages }}
