@@ -1,0 +1,17 @@
+name: "ROS Modified Packages"
+description: "List modified packages"
+
+inputs:
+  base-branch:
+    required: true
+
+outputs:
+  packages:
+    value: ${{ steps.search.outputs.packages }}
+
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      id: search
+      run: ${{ github.action_path }}/ros-modified-packages/modified-packages.sh ${{ inputs.base-branch }} ${{ github.workspace }}

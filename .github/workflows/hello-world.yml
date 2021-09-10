@@ -8,4 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Use hello world
     steps:
-      - uses: tier4/github-actions/hello-world@sandbox
+      - uses: tier4/github-actions/ros-modified-packages@sandbox
+        id: modified-packages
+      - shell: bash
+        run: echo packages: ${{ steps.modified-packages.outputs.packages }}
