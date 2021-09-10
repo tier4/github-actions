@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Use hello world
     steps:
+      - uses: actions/checkout@v2
       - uses: tier4/github-actions/ros-modified-packages@sandbox
         id: modified-packages
       - shell: bash
