@@ -1,17 +1,18 @@
 # ROS Modified Packages
 
-# Inputs
+## Inputs
 
 - base-branch
   - A branch typically set to base in a pull request.
 
-# Outputs
+## Outputs
 
 - packages
   - Modified package names (space-separated).
 
-# Sample Workflow Steps
-```
+## Sample Workflow Steps
+
+```yaml
 - uses: actions/checkout@v2
    with:
       fetch-depth: 0
