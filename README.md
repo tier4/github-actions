@@ -1,3 +1,3 @@
-# Github Actions
+# GitHub Actions
 
-* [ROS Modified Packages](./ros-modified-packages/README.md)
+- [ROS Modified Packages](./ros-modified-packages/README.md)
